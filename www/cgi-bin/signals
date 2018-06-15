@@ -38,6 +38,8 @@ try:
         })
 
     print(json.dumps(data))
+
+    dbConn.close()
     
 except Exception as exception:
     print(json.dumps({
