@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+import os
+import psycopg2 as connector
+from urllib.parse import urlparse
+
+DATABASE_URL = os.environ['DATABASE_URL']
+
+dbUrl = urlparse(DATABASE_URL)
+
+DATABASE_CREDENTIALS = {
+    'username': dbUrl.username,
+    'password': dbUrl.password,
+    'host': dbUrl.hostname,
+    'databaseName': dbUrl.path[1:],
+    'tableName': ''
+}
+
+print('Content-Type:', 'text/plain', end = '\r\n\r\n')
+
+dbConn = connector.connect(host = DATABASE_CREDENTIALS['host'],
+                            username = DATABASE_CREDENTIALS['username'],
+                            password = DATABASE_CREDENTIALS['password'],
+                            database = DATABASE_CREDENTIALS['databaseName'])
+
+print('Opened database successfully')
+
+dbConn.close()
