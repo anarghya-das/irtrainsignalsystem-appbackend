@@ -40,7 +40,7 @@ if not int(CONTENT_LENGTH) < 1e6:
     print('Incorrect request content length or content length too large')
     exit(1)
 
-POST_DATA = sys.stdin.read(CONTENT_LENGTH)
+POST_DATA = sys.stdin.read(int(CONTENT_LENGTH))
 
 content = json.loads(POST_DATA)
 
