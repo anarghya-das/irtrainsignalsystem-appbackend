@@ -9,7 +9,7 @@ DATABASE_URL = os.environ['DATABASE_URL']
 
 dbUrl = urlparse(DATABASE_URL)
 
-DATABASE_CREDENTIALS = {
+DATABASE_OPTIONS = {
     'user': dbUrl.username,
     'password': dbUrl.password,
     'host': dbUrl.hostname,
