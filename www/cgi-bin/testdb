@@ -19,7 +19,7 @@ DATABASE_CREDENTIALS = {
 print('Content-Type:', 'text/plain', end = '\r\n\r\n')
 
 dbConn = connector.connect(host = DATABASE_CREDENTIALS['host'],
-                            username = DATABASE_CREDENTIALS['username'],
+                            user = DATABASE_CREDENTIALS['username'],
                             password = DATABASE_CREDENTIALS['password'],
                             database = DATABASE_CREDENTIALS['databaseName'])
 
