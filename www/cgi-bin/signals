@@ -14,7 +14,7 @@ DATABASE_OPTIONS = {
     'password': dbUrl.password,
     'host': dbUrl.hostname,
     'databaseName': dbUrl.path[1:],
-    'tableName': ''
+    'tableName': 'signals'
 }
 
 print('Content-Type: application/json', end = '\r\n\r\n')
@@ -24,7 +24,7 @@ try:
 
     dbCursor = dbConn.cursor()
 
-    sqlQueryString = 'SELECT signalId, latitude, longitude FROM ' + DATABASE_OPTIONS['tableName'] + ';'
+    sqlQueryString = 'SELECT signalid, latitude, longitude FROM ' + DATABASE_OPTIONS['tableName'] + ';'
 
     dbCursor.execute(sqlQueryString)
 
