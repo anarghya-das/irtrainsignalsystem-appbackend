@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+
+import os
+import psycopg2 as connector
+from urllib.parse import urlparse
+import json
+import sys
+
+DATABASE_URL = os.environ['DATABASE_URL']
+
+dbUrl = urlparse(DATABASE_URL)
+
+DATABASE_OPTIONS = {
+    'user': dbUrl.username,
+    'password': dbUrl.password,
+    'host': dbUrl.hostname,
+    'databaseName': dbUrl.path[1:],
+    'tableName': 'signals'
+}
+
+print('Content-Type: text/plain', end = '\r\n\r\n')
+
+REQUEST_METHOD = os.environ['REQUEST_METHOD']
+CONTENT_TYPE = os.environ['CONTENT_TYPE']
+CONTENT_LENGTH = os.environ['CONTENT_LENGTH']
+
+# error cases
+if not REQUEST_METHOD == 'POST':
+    print('HTTP method not allowed')
+    exit(1)
+
+if not CONTENT_TYPE == 'application/json' :
+    print('Incorrect request content type')
+    exit(1)
+
+if not int(CONTENT_LENGTH) < 1e6:
+    print('Incorrect request content length or content length too large')
+    exit(1)
+
+POST_DATA = sys.stdin.read(CONTENT_LENGTH)
+
+content = json.loads(POST_DATA)
+
+print('JSON received')
