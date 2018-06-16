@@ -22,29 +22,26 @@ DATABASE_OPTIONS = {
     'tableName': 'devicelocations'
 }
 
-print('Content-Type: text/plain', end='\r\n\r\n')
-
 REQUEST_METHOD = os.environ['REQUEST_METHOD']
 CONTENT_TYPE = os.environ['CONTENT_TYPE']
 CONTENT_LENGTH = os.environ['CONTENT_LENGTH']
 
 # error cases
 if not REQUEST_METHOD == 'POST':
-    print('HTTP method not allowed')
-    exit(1)
+    raise Exception('HTTP method not allowed')
 
 if not CONTENT_TYPE == 'application/json':
-    print('Incorrect request content type')
-    exit(1)
+    raise Exception('Incorrect request content type')
 
 if not int(CONTENT_LENGTH) < 1e6:
-    print('Incorrect request content length or content length too large')
-    exit(1)
+    raise Exception('Incorrect request content length or content length too large')
 
 # read post data
 POST_DATA = sys.stdin.read(int(CONTENT_LENGTH))
 
 content = json.loads(POST_DATA)
+
+print('Content-Type: text/plain', end='\r\n\r\n')
 
 print('JSON received. ')
 
@@ -53,12 +50,11 @@ dbConn = connector.connect(user=DATABASE_OPTIONS['user'], password=DATABASE_OPTI
 
 dbCursor = dbConn.cursor()
 
-sqlQueryString = '''INSERT INTO ''' + DATABASE_OPTIONS['tableName'] + ''' (deviceid, trainname, trackname, phone, trainno, latitude, longitude) VALUES ('{k0}', '{k1}', '{k2}', {k3}, {k4}, {k5}, {k6});''' \
-    .format(k0=content['deviceId'], k1=content['info']['trainName'], k2=content['info']['trackName'],
-            k3=content['info']['phone'], k4=content['info']['trainNo'], k5=content['coordinate']['latitude'],
-            k6=content['coordinate']['longitude'])
+sqlQueryString = '''INSERT INTO ''' + DATABASE_OPTIONS['tableName'] + ''' (deviceid, trainname, trackname, phone, trainno, latitude, longitude) VALUES (%s, %s, %s, %s, %s, %s, %s);'''
             
-dbCursor.execute(sqlQueryString)
+dbCursor.execute(sqlQueryString, (content['deviceId'], content['info']['trainName'], content['info']['trackName'],
+            content['info']['phone'], content['info']['trainNo'], content['coordinate']['latitude'],
+            content['coordinate']['longitude']))
 
 dbConn.commit()
 
