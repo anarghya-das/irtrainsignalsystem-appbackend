@@ -57,8 +57,7 @@ sqlQueryString = '''INSERT INTO ''' + DATABASE_OPTIONS['tableName'] + ''' (devic
     .format(k0=content['deviceId'], k1=content['info']['trainName'], k2=content['info']['trackName'],
             k3=content['info']['phone'], k4=content['info']['trainNo'], k5=content['coordinate']['latitude'],
             k6=content['coordinate']['longitude'])
-
-print(sqlQueryString)
+            
 dbCursor.execute(sqlQueryString)
 
 dbConn.commit()
