@@ -17,10 +17,11 @@ DATABASE_OPTIONS = {
     'tableName': 'signals'
 }
 
-print('Content-Type: application/json', end = '\r\n\r\n')
+print('Content-Type: application/json', end='\r\n\r\n')
 
 try:
-    dbConn = connector.connect(user = DATABASE_OPTIONS['user'], password = DATABASE_OPTIONS['password'], host = DATABASE_OPTIONS['host'], database = DATABASE_OPTIONS['databaseName'])
+    dbConn = connector.connect(user=DATABASE_OPTIONS['user'], password=DATABASE_OPTIONS['password'],
+                               host=DATABASE_OPTIONS['host'], database=DATABASE_OPTIONS['databaseName'])
 
     dbCursor = dbConn.cursor()
 
@@ -33,14 +34,16 @@ try:
     for (signalId, latitude, longitude) in dbCursor:
         data.append({
             'signalId': signalId,
-            'latitude': latitude,
-            'longitude': longitude
+            'coordinate': {
+                'latitude': latitude,
+                'longitude': longitude
+            }
         })
 
     print(json.dumps(data))
 
     dbConn.close()
-    
+
 except Exception as exception:
     print(json.dumps({
         'error': 'Error occured.' + str(exception)
