@@ -5,11 +5,12 @@ CREATE TABLE signals (
     longitude REAL
 );
 
-CREATE TABLE devices (
+CREATE TABLE devicelocations (
     id SERIAL PRIMARY KEY,
-    deviceid TEXT NOT NULL,
-    info TEXT,
+    deviceid TEXT,
+    trackname TEXT,
+    phone INT,
+    trainno INT,
     latitude REAL,
     longitude REAL
 );
-
