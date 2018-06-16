@@ -12,7 +12,7 @@ request.onreadystatechange = function() {
         performAfterRequest()
     }
     else {
-        //
+        alert('Internet Connectivity error! Please reload this page at a later time! :( ')
     }
 }
 

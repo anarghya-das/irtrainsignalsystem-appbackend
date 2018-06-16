@@ -1,16 +1,24 @@
 function renderMap(deviceLocations) {
-    console.log(deviceLocations)
 
-    var mymap = L.map('mapid').setView([22.582255, 88.457659], 15);
+    var center = [
+        deviceLocations[0].latitude,
+        deviceLocations[0].longitude
+    ]
+
+    var mymap = L.map('mapid').setView(center, 15);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(mymap);
 
-
-    var marker = L.marker([22.582255, 88.457659]).addTo(mymap);
-    marker.bindPopup("You clicked me!");
+    for(var index = 0; index < deviceLocations.length; index++) {
+        var marker = L.marker([
+            deviceLocations[0].coordinate.latitude,
+            deviceLocations[0].coordinate.longitude,
+        ]).addTo(mymap);
+        marker.bindPopup("Hello.")
+    }
 }
 
 // mymap.locate({setView: true, maxZoom: 16});
