@@ -6,13 +6,15 @@ request.send()
 var deviceLocationsJsonString = ''
 
 request.onreadystatechange = function() {
-    if(this.readyState == 4 && this.status == 200) {
-        deviceLocationsJsonString = this.responseText
+    if(this.readyState == 4) {
+        if(this.status == 200) {
+            deviceLocationsJsonString = this.responseText
 
-        performAfterRequest()
-    }
-    else {
-        alert('Internet Connectivity error! Please reload this page at a later time! :( ')
+            performAfterRequest()
+        }
+        else {
+            alert('Device locations couldn\'t be requested.')
+        }
     }
 }
 

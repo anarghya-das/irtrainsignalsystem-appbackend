@@ -17,7 +17,7 @@ function renderMap(deviceLocations) {
             deviceLocations[0].coordinate.latitude,
             deviceLocations[0].coordinate.longitude,
         ]).addTo(mymap);
-        marker.bindPopup("Hello.")
+        marker.bindPopup('Phone Number: <b>' + deviceLocations[index].info.phone + '</b><br>Train Number: <b>' + deviceLocations[index].info.trainNo + '</b><br>Track Name: <b>' + deviceLocations[index].info.trackName + '</b>');
     }
 }
 
