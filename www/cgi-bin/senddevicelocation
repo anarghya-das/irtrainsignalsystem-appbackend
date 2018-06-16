@@ -18,7 +18,7 @@ DATABASE_OPTIONS = {
     'password': dbUrl.password,
     'host': dbUrl.hostname,
     'databaseName': dbUrl.path[1:],
-    'tableName': 'signals'
+    'tableName': 'devicelocations'
 }
 
 print('Content-Type: text/plain', end = '\r\n\r\n')
@@ -45,4 +45,19 @@ POST_DATA = sys.stdin.read(int(CONTENT_LENGTH))
 
 content = json.loads(POST_DATA)
 
-print('JSON received')
+print('JSON received. ')
+
+dbConn = connector.connect(user=DATABASE_OPTIONS['user'], password=DATABASE_OPTIONS['password'],
+                           host=DATABASE_OPTIONS['host'], database=DATABASE_OPTIONS['databaseName'])
+
+dbCursor = dbConn.cursor()
+
+sqlQueryString = '''INSERT INTO ' + DATABASE_OPTIONS['tableName'] + ' (deviceid, trainname, trackname, phone, trainno, latitude, longitude) VALUES ('{k0}', '{k1}', '{k2}', {k3}, {k4}, {k5}, {k6});'''\
+    .format(k0 = content['deviceId'], k1 = content['info']['trainName'], k2 = content['info']['trackName'], k3 = content['info']['phone'], k4 = content['info']['trainNo'], k5 = content['coordinate']['latitude'], k6 = content['coordinate']['longitude'])
+dbCursor.execute(sqlQueryString)
+
+dbConn.commit()
+
+dbConn.close()
+
+print('Successfuly got location.')
