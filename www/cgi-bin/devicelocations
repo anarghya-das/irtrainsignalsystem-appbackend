@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 
-import cgitb
-cgitb.enable()
-
 import os
 import psycopg2 as connector
 from urllib.parse import urlparse
@@ -22,34 +19,38 @@ DATABASE_OPTIONS = {
 
 print('Content-Type: application/json', end='\r\n\r\n')
 
+try:
+    dbConn = connector.connect(user=DATABASE_OPTIONS['user'], password=DATABASE_OPTIONS['password'],
+                            host=DATABASE_OPTIONS['host'], database=DATABASE_OPTIONS['databaseName'])
 
-dbConn = connector.connect(user=DATABASE_OPTIONS['user'], password=DATABASE_OPTIONS['password'],
-                           host=DATABASE_OPTIONS['host'], database=DATABASE_OPTIONS['databaseName'])
+    dbCursor = dbConn.cursor()
 
-dbCursor = dbConn.cursor()
+    sqlQueryString = 'SELECT deviceid, trainname, trackname, phone, trainno, latitude, longitude FROM ' + DATABASE_OPTIONS['tableName'] + ';'
 
-sqlQueryString = 'SELECT deviceid, trainname, trackname, phone, trainno, latitude, longitude FROM ' + DATABASE_OPTIONS['tableName'] + ';'
+    dbCursor.execute(sqlQueryString)
 
-dbCursor.execute(sqlQueryString)
+    data = []
 
-data = []
+    for (deviceId, trainName, trackName, phone, trainNo, latitude, longitude) in dbCursor:
+        data.append({
+            'deviceId': deviceId,
+            'info': {
+                'trainNo': trainNo,
+                'phone': phone,
+                'trainName': trainName,
+                'trackName': trackName
+            },
+            'coordinate': {
+                'latitude': latitude,
+                'longitude': longitude
+            }
+        })
 
-for (deviceId, trainName, trackName, phone, trainNo, latitude, longitude) in dbCursor:
-    data.append({
-        'deviceId': deviceId,
-        'info': {
-            'trainNo': trainNo,
-            'phone': phone,
-            'trainName': trainName,
-            'trackName': trackName
-        },
-        'coordinate': {
-            'latitude': latitude,
-            'longitude': longitude
-        }
-    })
+    print(json.dumps(data))
 
-print(json.dumps(data))
+    dbConn.close()
 
-dbConn.close()
-
+except Exception as exception:
+    print(json.dumps({
+        'error': 'Error occured.' + str(exception)
+    }))
