@@ -8,8 +8,9 @@ CREATE TABLE signals (
 CREATE TABLE devicelocations (
     id SERIAL PRIMARY KEY,
     deviceid TEXT,
+    trainname TEXT,
     trackname TEXT,
-    phone INT,
+    phone BIGINT,
     trainno INT,
     latitude REAL,
     longitude REAL
