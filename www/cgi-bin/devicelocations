@@ -34,12 +34,13 @@ dbCursor.execute(sqlQueryString)
 
 data = []
 
-for (deviceId, trainname, trackName, phone, trainNo, latitude, longitude) in dbCursor:
+for (deviceId, trainName, trackName, phone, trainNo, latitude, longitude) in dbCursor:
     data.append({
         'deviceId': deviceId,
         'info': {
             'trainNo': trainNo,
             'phone': phone,
+            'trainName': trainName,
             'trackName': trackName
         },
         'coordinate': {
