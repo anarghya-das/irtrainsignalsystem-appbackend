@@ -1,4 +1,6 @@
-function renderMap() {
+function renderMap(deviceLocations) {
+    console.log(deviceLocations)
+
     var mymap = L.map('mapid').setView([22.582255, 88.457659], 15);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
