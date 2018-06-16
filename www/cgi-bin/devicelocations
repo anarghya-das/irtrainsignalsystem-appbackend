@@ -28,13 +28,13 @@ dbConn = connector.connect(user=DATABASE_OPTIONS['user'], password=DATABASE_OPTI
 
 dbCursor = dbConn.cursor()
 
-sqlQueryString = 'SELECT deviceid, trackname, phone, trainno, latitude, longitude FROM ' + DATABASE_OPTIONS['tableName'] + ';'
+sqlQueryString = 'SELECT deviceid, trainname, trackname, phone, trainno, latitude, longitude FROM ' + DATABASE_OPTIONS['tableName'] + ';'
 
 dbCursor.execute(sqlQueryString)
 
 data = []
 
-for (deviceId, trackName, phone, trainNo, latitude, longitude) in dbCursor:
+for (deviceId, trainname, trackName, phone, trainNo, latitude, longitude) in dbCursor:
     data.append({
         'deviceId': deviceId,
         'info': {
