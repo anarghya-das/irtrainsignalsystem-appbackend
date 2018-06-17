@@ -1,8 +1,8 @@
 CREATE TABLE signals (
     id SERIAL PRIMARY KEY,
     signalid TEXT NOT NULL,
-    latitude REAL,
-    longitude REAL
+    latitude DECIMAL PRECISION,
+    longitude DECIMAL PRECISION
 );
 
 CREATE TABLE devicelocations (
@@ -12,6 +12,6 @@ CREATE TABLE devicelocations (
     trackname TEXT,
     phone BIGINT,
     trainno INT,
-    latitude REAL,
-    longitude REAL
+    latitude DECIMAL PRECISION,
+    longitude DECIMAL PRECISION
 );
