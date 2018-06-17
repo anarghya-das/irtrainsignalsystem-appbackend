@@ -22,6 +22,8 @@ DATABASE_OPTIONS = {
     'tableName': 'devicelocations'
 }
 
+print('Content-Type: text/html', end='\r\n\r\n')
+
 REQUEST_METHOD = os.environ['REQUEST_METHOD']
 CONTENT_TYPE = os.environ['CONTENT_TYPE']
 CONTENT_LENGTH = os.environ['CONTENT_LENGTH']
@@ -30,7 +32,7 @@ CONTENT_LENGTH = os.environ['CONTENT_LENGTH']
 if not REQUEST_METHOD == 'POST':
     raise Exception('HTTP method not allowed')
 
-if not CONTENT_TYPE == 'application/json':
+if not 'application/json' in CONTENT_TYPE:
     raise Exception('Incorrect request content type')
 
 if not int(CONTENT_LENGTH) < 1e6:
@@ -41,8 +43,6 @@ POST_DATA = sys.stdin.read(int(CONTENT_LENGTH))
 
 content = json.loads(POST_DATA)
 
-print('Content-Type: text/plain', end='\r\n\r\n')
-
 print('JSON received. ')
 
 dbConn = connector.connect(user=DATABASE_OPTIONS['user'], password=DATABASE_OPTIONS['password'],
@@ -50,9 +50,20 @@ dbConn = connector.connect(user=DATABASE_OPTIONS['user'], password=DATABASE_OPTI
 
 dbCursor = dbConn.cursor()
 
-sqlQueryString = '''INSERT INTO ''' + DATABASE_OPTIONS['tableName'] + ''' (deviceid, trainname, trackname, phone, trainno, latitude, longitude) VALUES (%s, %s, %s, %s, %s, %s, %s);'''
-            
-dbCursor.execute(sqlQueryString, (content['deviceId'], content['info']['trainName'], content['info']['trackName'],
+sqlQueryString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE deviceid = %s;'
+
+dbCursor.execute(sqlQueryString, (content['deviceId'],))
+
+if dbCursor.rowcount > 0:
+    # updation
+    sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS['tableName'] + ' SET trainname = %s, trackname = %s, phone = %s, trainno = %s, latitude = %s, longitude = %s WHERE deviceid = %s;'
+    dbCursor.execute(sqlQueryString1, (content['info']['trainName'], content['info']['trackName'],
+            content['info']['phone'], content['info']['trainNo'], content['coordinate']['latitude'],
+            content['coordinate']['longitude'], content['deviceId']))
+else:
+    # insertion
+    sqlQueryString1 = '''INSERT INTO ''' + DATABASE_OPTIONS['tableName'] + ''' (deviceid, trainname, trackname, phone, trainno, latitude, longitude) VALUES (%s, %s, %s, %s, %s, %s, %s);'''
+    dbCursor.execute(sqlQueryString1, (content['deviceId'], content['info']['trainName'], content['info']['trackName'],
             content['info']['phone'], content['info']['trainNo'], content['coordinate']['latitude'],
             content['coordinate']['longitude']))
 
