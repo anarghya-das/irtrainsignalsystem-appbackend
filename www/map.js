@@ -7,11 +7,18 @@ function renderMap(deviceLocations) {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(mymap);
 
+    var trainIcon = L.icon({
+    iconUrl: 'train.png',
+    iconSize:     [38, 95], // size of the icon
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
     for(var index = 0; index < deviceLocations.length; index++) {
         var marker = L.marker([
             deviceLocations[index].coordinate.latitude,
             deviceLocations[index].coordinate.longitude,
-        ]).addTo(mymap);
+        ], {icon: trainIcon}).addTo(mymap);
         marker.bindPopup('Phone Number: <b>' + deviceLocations[index].info.phone + '</b><br>Train Name: <b>' + deviceLocations[index].info.trainName + '</b><br>Train Number: <b>' + deviceLocations[index].info.trainNo + '</b><br>Track Name: <b>' + deviceLocations[index].info.trackName + '</b>');
     }
 }
