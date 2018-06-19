@@ -1,11 +1,6 @@
 function renderMap(deviceLocations) {
 
-    var center = [
-        22.5814171,
-        88.4593132
-    ]
-
-    var mymap = L.map('mapid').setView(center, 15);
+    var mymap = L.map('mapid').setView([22.5814171,88.4593132], 15);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
