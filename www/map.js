@@ -1,8 +1,8 @@
 function renderMap(deviceLocations) {
 
     var center = [
-        deviceLocations[5].coordinate.latitude,
-        deviceLocations[5].coordinate.longitude
+        deviceLocations[6].coordinate.latitude,
+        deviceLocations[6].coordinate.longitude
     ]
 
     var mymap = L.map('mapid').setView(center, 15);
