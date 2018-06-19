@@ -9,7 +9,7 @@ function renderMap(deviceLocations) {
 
     var trainIcon = L.icon({
     iconUrl: 'train.png',
-    popupAnchor: [2, 2],
+    popupAnchor: [20, 2o],
 });
 
     for(var index = 0; index < deviceLocations.length; index++) {
