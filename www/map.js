@@ -1,7 +1,7 @@
 function renderMap(deviceLocations) {
 
     var center = [
-        22.5814171
+        22.5814171,
         88.4593132
     ]
 
