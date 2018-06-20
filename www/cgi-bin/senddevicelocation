@@ -70,6 +70,7 @@ if dbCursor.rowcount > 0:
                                                    content['coordinate']['latitude'],
                                                    content['coordinate']['longitude'], content['status'],
                                                    content['info']['trainNo']))
+                print('good')
             else:
                 print('error')
         else:
@@ -81,6 +82,8 @@ if dbCursor.rowcount > 0:
                                                content['coordinate']['latitude'],
                                                content['coordinate']['longitude'], content['status'],
                                                content['info']['trainNo']))
+            print('good')
+
     if content['status'] == 'notactive':
         sqlString2 = "SELECT * FROM " + DATABASE_OPTIONS['tableName'] + " WHERE trainno = %s AND status= 'active'; "
         dbCursor.execute(sqlString2, (content['info']['trainNo'],))
@@ -93,16 +96,18 @@ if dbCursor.rowcount > 0:
                                                content['coordinate']['latitude'],
                                                content['coordinate']['longitude'], content['status'],
                                                content['info']['trainNo']))
+            print('good')
+
 else:
     # insertion
     sqlQueryString1 = '''INSERT INTO ''' + DATABASE_OPTIONS['tableName'] + ''' (deviceid, trainname, trackname, phone, trainno, latitude, longitude, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);'''
     dbCursor.execute(sqlQueryString1, (content['deviceId'], content['info']['trainName'], content['info']['trackName'],
             content['info']['phone'], content['info']['trainNo'], content['coordinate']['latitude'],
             content['coordinate']['longitude'], content['status']))
+    print('good')
 
 dbConn.commit()
 
 dbConn.close()
 
-print('good')
 # print('Successfuly got location.')
