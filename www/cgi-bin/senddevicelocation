@@ -43,7 +43,7 @@ POST_DATA = sys.stdin.read(int(CONTENT_LENGTH))
 
 content = json.loads(POST_DATA)
 
-print('JSON received. ')
+# print('JSON received. ')
 
 dbConn = connector.connect(user=DATABASE_OPTIONS['user'], password=DATABASE_OPTIONS['password'],
                            host=DATABASE_OPTIONS['host'], database=DATABASE_OPTIONS['databaseName'])
@@ -104,4 +104,5 @@ dbConn.commit()
 
 dbConn.close()
 
+print('good')
 # print('Successfuly got location.')
