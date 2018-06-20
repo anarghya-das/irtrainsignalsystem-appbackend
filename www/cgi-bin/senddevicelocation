@@ -50,7 +50,7 @@ dbConn = connector.connect(user=DATABASE_OPTIONS['user'], password=DATABASE_OPTI
 
 dbCursor = dbConn.cursor()
 
-sqlQueryString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE trainno = %s deviceid= %s;'
+sqlQueryString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE trainno = %s AND deviceid= %s;'
 
 dbCursor.execute(sqlQueryString, (content['info']['trainNo'], content['deviceId'],))
 
