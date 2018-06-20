@@ -57,7 +57,7 @@ dbCursor.execute(sqlQueryString, (content['trainNo'],))
 if dbCursor.rowcount > 0:
     if content['status'] == 'active':
         sqlString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE deviceid = %s trainno= %s status= %s'
-        dbCursor.execute(sqlString, (content['deviceid'], content['trainno'], content['status']))
+        dbCursor.execute(sqlString, (content['deviceId'], content['trainNo'], content['status']))
         if dbCursor.rowcount > 0:
             # updation
             sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS[
@@ -71,8 +71,8 @@ if dbCursor.rowcount > 0:
         else:
             print('error')
     if content['status'] == 'notactive':
-        sqlString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE deviceid = %s trainno= %s status= %s'
-        dbCursor.execute(sqlString, (content['deviceid'], content['trainno'], 'active'))
+        sqlString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE deviceid = %s trainno= %s status= active'
+        dbCursor.execute(sqlString, (content['deviceId'], content['trainNo'],))
         if dbCursor.rowcount > 0:
             # updation
             sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS[
