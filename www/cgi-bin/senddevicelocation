@@ -56,7 +56,7 @@ dbCursor.execute(sqlQueryString, (content['info']['trainNo'], content['deviceId'
 
 if dbCursor.rowcount > 0:
         sqlString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE deviceid = %s AND trainno = %s AND ' \
-                                                                       'status= active '
+                                                                       'status= "active"; '
         dbCursor.execute(sqlString, (content['deviceId'], content['info']['trainNo'],))
         if dbCursor.rowcount > 0:
             if content['status'] == 'active':
