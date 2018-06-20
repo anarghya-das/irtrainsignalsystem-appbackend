@@ -55,11 +55,32 @@ sqlQueryString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE trai
 dbCursor.execute(sqlQueryString, (content['info']['trainNo'],))
 
 if dbCursor.rowcount > 0:
-    # updation
-    sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS['tableName'] + ' SET trainname = %s, trackname = %s, phone = %s, trainno = %s, latitude = %s, longitude = %s, status= %s WHERE trainno = %s;'
-    dbCursor.execute(sqlQueryString1, (content['info']['trainName'], content['info']['trackName'],
-            content['info']['phone'], content['info']['trainNo'], content['coordinate']['latitude'],
-            content['coordinate']['longitude'], content['status'], content['info']['trainNo']))
+    if content['status'] == 'active':
+        sqlString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE trainno = %s AND status= %s; '
+        dbCursor.execute(sqlString, (content['info']['trainNo'], content['status']))
+        if dbCursor.rowcount > 0:
+            print('error')
+        else:
+            # updation
+            sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS[
+                'tableName'] + ' SET trainname = %s, trackname = %s, phone = %s, trainno = %s, latitude = %s, longitude = %s, status= %s WHERE trainno = %s;'
+            dbCursor.execute(sqlQueryString1, (content['info']['trainName'], content['info']['trackName'],
+                                               content['info']['phone'], content['info']['trainNo'],
+                                               content['coordinate']['latitude'],
+                                               content['coordinate']['longitude'], content['status'],
+                                               content['info']['trainNo']))
+    if content['status'] == 'notactive':
+        sqlString2 = "SELECT * FROM " + DATABASE_OPTIONS['tableName'] + " WHERE trainno = %s AND status= 'active'; "
+        dbCursor.execute(sqlString2, (content['info']['trainNo'],))
+        if dbCursor.rowcount > 0:
+            # updation
+            sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS[
+                'tableName'] + ' SET trainname = %s, trackname = %s, phone = %s, trainno = %s, latitude = %s, longitude = %s, status= %s WHERE trainno = %s;'
+            dbCursor.execute(sqlQueryString1, (content['info']['trainName'], content['info']['trackName'],
+                                               content['info']['phone'], content['info']['trainNo'],
+                                               content['coordinate']['latitude'],
+                                               content['coordinate']['longitude'], content['status'],
+                                               content['info']['trainNo']))
 else:
     # insertion
     sqlQueryString1 = '''INSERT INTO ''' + DATABASE_OPTIONS['tableName'] + ''' (deviceid, trainname, trackname, phone, trainno, latitude, longitude, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);'''
