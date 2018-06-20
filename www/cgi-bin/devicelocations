@@ -25,13 +25,13 @@ try:
 
     dbCursor = dbConn.cursor()
 
-    sqlQueryString = 'SELECT deviceid, trainname, trackname, phone, trainno, latitude, longitude FROM ' + DATABASE_OPTIONS['tableName'] + ';'
+    sqlQueryString = 'SELECT deviceid, trainname, trackname, phone, trainno, latitude, longitude, status FROM ' + DATABASE_OPTIONS['tableName'] + ';'
 
     dbCursor.execute(sqlQueryString)
 
     data = []
 
-    for (deviceId, trainName, trackName, phone, trainNo, latitude, longitude) in dbCursor:
+    for (deviceId, trainName, trackName, phone, trainNo, latitude, longitude, status) in dbCursor:
         data.append({
             'deviceId': deviceId,
             'info': {
@@ -43,7 +43,8 @@ try:
             'coordinate': {
                 'latitude': latitude,
                 'longitude': longitude
-            }
+            },
+            'status': status
         })
 
     print(json.dumps(data))

@@ -56,16 +56,16 @@ dbCursor.execute(sqlQueryString, (content['deviceId'],))
 
 if dbCursor.rowcount > 0:
     # updation
-    sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS['tableName'] + ' SET trainname = %s, trackname = %s, phone = %s, trainno = %s, latitude = %s, longitude = %s WHERE deviceid = %s;'
+    sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS['tableName'] + ' SET trainname = %s, trackname = %s, phone = %s, trainno = %s, latitude = %s, longitude = %s, status= %s WHERE deviceid = %s;'
     dbCursor.execute(sqlQueryString1, (content['info']['trainName'], content['info']['trackName'],
             content['info']['phone'], content['info']['trainNo'], content['coordinate']['latitude'],
-            content['coordinate']['longitude'], content['deviceId']))
+            content['coordinate']['longitude'], content['status'], content['deviceId']))
 else:
     # insertion
-    sqlQueryString1 = '''INSERT INTO ''' + DATABASE_OPTIONS['tableName'] + ''' (deviceid, trainname, trackname, phone, trainno, latitude, longitude) VALUES (%s, %s, %s, %s, %s, %s, %s);'''
+    sqlQueryString1 = '''INSERT INTO ''' + DATABASE_OPTIONS['tableName'] + ''' (deviceid, trainname, trackname, phone, trainno, latitude, longitude, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);'''
     dbCursor.execute(sqlQueryString1, (content['deviceId'], content['info']['trainName'], content['info']['trackName'],
             content['info']['phone'], content['info']['trainNo'], content['coordinate']['latitude'],
-            content['coordinate']['longitude']))
+            content['coordinate']['longitude'], content['status']))
 
 dbConn.commit()
 
