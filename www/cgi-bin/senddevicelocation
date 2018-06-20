@@ -57,14 +57,14 @@ dbCursor.execute(sqlQueryString, (content['info']['trainNo'], content['deviceId'
 if dbCursor.rowcount > 0:
         sqlString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE deviceid = %s AND trainno = %s AND ' \
                                                                        'status= %s; '
-        dbCursor.execute(sqlString, (content['deviceId'], content['info']['trainNo'],content['status']))
+        dbCursor.execute(sqlString, (content['deviceId'], content['info']['trainNo'], content['status']))
         if dbCursor.rowcount > 0:
             if content['status'] == 'active':
                 print('error')
             else:
                 # updation
                 sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS[
-                    'tableName'] + 'SET trainname = %s, trackname = %s, phone = %s, trainno = %s, latitude = %s, ' \
+                    'tableName'] + ' SET trainname = %s, trackname = %s, phone = %s, trainno = %s, latitude = %s, ' \
                                    'longitude = %s, status= %s WHERE deviceid = %s; '
                 dbCursor.execute(sqlQueryString1, (content['info']['trainName'], content['info']['trackName'],
                                                    content['info']['phone'], content['info']['trainNo'],
@@ -74,7 +74,7 @@ if dbCursor.rowcount > 0:
         else:
             # updation
             sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS[
-                'tableName'] + 'SET trainname = %s, trackname = %s, phone = %s, trainno = %s, latitude = %s, ' \
+                'tableName'] + ' SET trainname = %s, trackname = %s, phone = %s, trainno = %s, latitude = %s, ' \
                                'longitude = %s, status= %s WHERE deviceid = %s; '
             dbCursor.execute(sqlQueryString1, (content['info']['trainName'], content['info']['trackName'],
                                                content['info']['phone'], content['info']['trainNo'],
