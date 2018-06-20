@@ -59,7 +59,19 @@ if dbCursor.rowcount > 0:
         sqlString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE trainno = %s AND status= %s; '
         dbCursor.execute(sqlString, (content['info']['trainNo'], content['status']))
         if dbCursor.rowcount > 0:
-            print('error')
+            sqlString3 = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE trainno = %s AND deviceid=%s AND status= %s; '
+            dbCursor.execute(sqlString3, (content['info']['trainNo'], content['deviceId'], content['status']))
+            if dbCursor.rowcount > 0:
+                # updation
+                sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS[
+                    'tableName'] + ' SET trainname = %s, trackname = %s, phone = %s, trainno = %s, latitude = %s, longitude = %s, status= %s WHERE trainno = %s;'
+                dbCursor.execute(sqlQueryString1, (content['info']['trainName'], content['info']['trackName'],
+                                                   content['info']['phone'], content['info']['trainNo'],
+                                                   content['coordinate']['latitude'],
+                                                   content['coordinate']['longitude'], content['status'],
+                                                   content['info']['trainNo']))
+            else:
+                print('error')
         else:
             # updation
             sqlQueryString1 = 'UPDATE ' + DATABASE_OPTIONS[
@@ -92,4 +104,4 @@ dbConn.commit()
 
 dbConn.close()
 
-print('Successfuly got location.')
+# print('Successfuly got location.')
