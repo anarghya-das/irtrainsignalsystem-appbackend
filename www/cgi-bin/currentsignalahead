@@ -7,5 +7,10 @@ URL = "http://tms.affineit.com:4445/SignalAhead/Json/SignalAhead"
 from urllib import request
 
 with request.urlopen(URL, []) as response:
-    print(response.info(), end = '')
+    headers = response.info()
+
+    for key in headers:
+        print(key + ':', headers[key], end = '\r\n')
+    print('', end = '\r\n')
+
     print(response.read().decode('utf-8'))
