@@ -52,7 +52,7 @@ dbCursor = dbConn.cursor()
 
 sqlQueryString = 'SELECT * FROM ' + DATABASE_OPTIONS['tableName'] + ' WHERE trainno = %s;'
 
-dbCursor.execute(sqlQueryString, (content['trainno'],))
+dbCursor.execute(sqlQueryString, (content['trainNo'],))
 
 if dbCursor.rowcount > 0:
     if content['status'] == 'active':
