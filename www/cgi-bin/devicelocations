@@ -21,11 +21,12 @@ print('Content-Type: application/json', end='\r\n\r\n')
 
 try:
     dbConn = connector.connect(user=DATABASE_OPTIONS['user'], password=DATABASE_OPTIONS['password'],
-                            host=DATABASE_OPTIONS['host'], database=DATABASE_OPTIONS['databaseName'])
+                               host=DATABASE_OPTIONS['host'], database=DATABASE_OPTIONS['databaseName'])
 
     dbCursor = dbConn.cursor()
 
-    sqlQueryString = 'SELECT deviceid, trainname, trackname, phone, trainno, latitude, longitude, status FROM ' + DATABASE_OPTIONS['tableName'] + ';'
+    sqlQueryString = 'SELECT deviceid, trainname, trackname, phone, trainno, latitude, longitude, status FROM ' + \
+                     DATABASE_OPTIONS['tableName'] + ';'
 
     dbCursor.execute(sqlQueryString)
 
@@ -33,20 +34,20 @@ try:
 
     for (deviceId, trainName, trackName, phone, trainNo, latitude, longitude, status) in dbCursor:
         if status == 'active':
-         data.append({
-            'deviceId': deviceId,
-            'info': {
-                'trainNo': trainNo,
-                'phone': phone,
-                'trainName': trainName,
-                'trackName': trackName
-            },
-            'coordinate': {
-                'latitude': latitude,
-                'longitude': longitude
-            },
-            'status': status
-        })
+            data.append({
+                'deviceId': deviceId,
+                'info': {
+                    'trainNo': trainNo,
+                    'phone': phone,
+                    'trainName': trainName,
+                    'trackName': trackName
+                },
+                'coordinate': {
+                    'latitude': latitude,
+                    'longitude': longitude
+                },
+                'status': status
+            })
 
     print(json.dumps(data))
 
