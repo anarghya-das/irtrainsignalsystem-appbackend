@@ -32,7 +32,8 @@ try:
     data = []
 
     for (deviceId, trainName, trackName, phone, trainNo, latitude, longitude, status) in dbCursor:
-        data.append({
+        if status == 'active':
+         data.append({
             'deviceId': deviceId,
             'info': {
                 'trainNo': trainNo,
